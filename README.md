@@ -75,7 +75,7 @@ This rule parses integers and floats, positive or negative.
 
 ### OperatorRule
 
-Parses the following operators: `+`, `-`, `*`, `/`, `==`, `^`, `**`
+Parses the following operators: `+`, `-`, `*`, `/`, `==`, `^`, `**`, `%`
 
 ### SymbolRule
 

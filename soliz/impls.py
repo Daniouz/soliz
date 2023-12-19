@@ -15,6 +15,7 @@ class TokenType:
     TT_LPAREN = "lparen"
     TT_RPAREN = "rparen"
     TT_EQUALS = "equals"
+    TT_PERIOD = "period"
 
 
 class StringRule(Rule):
@@ -144,13 +145,13 @@ class SymbolRule(Rule):
     def check(self, ctx: Context) -> Tuple[Token, bool] | None:
         match ctx.char:
             case '(':
-                return Token("lparen", ctx.span()), True
+                return Token(TokenType.TT_LPAREN, ctx.span()), True
             case ')':
-                return Token("rparen", ctx.span()), True
+                return Token(TokenType.TT_RPAREN, ctx.span()), True
             case '.':
-                return Token("period", ctx.span()), True
+                return Token(TokenType.TT_PERIOD, ctx.span()), True
             case '=':
-                return Token("equals", ctx.span()), True
+                return Token(TokenType.TT_EQUALS, ctx.span()), True
 
 
 class IdentifierRule(Rule):

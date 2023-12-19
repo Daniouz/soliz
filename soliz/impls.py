@@ -162,7 +162,7 @@ class IdentifierRule(Rule):
         start = ctx.col
         chars = []
 
-        while ctx.char.isalnum() or ctx.char == '_':
+        while not ctx.is_eoi() and (ctx.char.isalnum() or ctx.char == '_'):
             chars.append(ctx.char)
             ctx.advance()
 

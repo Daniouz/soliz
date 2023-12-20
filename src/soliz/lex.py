@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from src.soliz.error import BuiltinErrors, Error, ErrorContext
-from src.soliz.tokens import Span, Token
+from .error import BuiltinErrors, Error, ErrorContext
+from .tokens import Span, Token
 
 from typing import Tuple
 

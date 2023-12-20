@@ -1,8 +1,8 @@
 from typing import Tuple
 
-from src.soliz.lex import Context, Rule
-from src.soliz.error import Error, BuiltinErrors, ErrorContext
-from src.soliz.tokens import Token
+from .lex import Context, Rule
+from .error import Error, BuiltinErrors, ErrorContext
+from .tokens import Token
 
 
 class TokenType:

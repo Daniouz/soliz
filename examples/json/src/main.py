@@ -1,9 +1,9 @@
 from typing import Tuple
 
-from soliz.error import Error, ErrorContext, BuiltinErrors
-from soliz.impls import StringRule, NumberRule, TokenType
-from soliz.lex import Lexer, Rule, Context
-from soliz.tokens import Token, Span
+from src.soliz.error import Error, ErrorContext, BuiltinErrors
+from src.soliz.impls import StringRule, NumberRule, TokenType
+from src.soliz.lex import Lexer, Rule, Context
+from src.soliz.tokens import Token, Span
 
 
 class JsonToken:
@@ -29,70 +29,83 @@ class JSONSymbolRule(Rule):
 class TokenIterator:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens = tokens
+        self.token = tokens[0] if tokens else None
         self.index = 0
 
-    def is_eoi(self) -> bool:
-        return self.index >= len(self.tokens)
+    def advance(self) -> None:
+        self.index += 1
+        self.token = None if self.index >= len(self.tokens) else self.tokens[self.index]
 
     def next(self) -> Token | None:
-        self.index += 1
-        return None if self.is_eoi() else self.tokens[self.index]
+        self.advance()
+        return self.token
 
-    def peek(self) -> Token | None:
-        return self.tokens[self.index + 1] if self.has_next() else None
+    def advance_not_eoi(self, expected: list[str]) -> None:
+        previous_span = self.token.location
+        self.advance()
+
+        if not self.token:
+            raise Error(BuiltinErrors.UNEXPECTED_EOI, previous_span, ErrorContext(expected, "EOI"))
 
     def has_next(self):
         return self.index + 1 < len(self.tokens)
 
 
-def parse_section(previous_span: Span, it: TokenIterator) -> (any, Span):
+def parse_section(it: TokenIterator) -> dict[str, any]:
+    if it.token.ty != JsonToken.TT_LBRACKET:
+        raise Error("Syntax error", it.token.location, ErrorContext(["'{'"], it.token.ty))
+
     entries = {}
-    last_span = previous_span
 
-    while (t := it.peek()) and t.ty != JsonToken.TT_RBRACKET:
-        last_span = t.location
-        key, value, span = parse_field(t.location, it)
+    while it.has_next():
+        it.advance()
 
-        if not (c := it.next()):
-            raise Error(BuiltinErrors.UNEXPECTED_EOI, span, ErrorContext(["'}'", "','"], "EOI"))
+        if it.token.ty == JsonToken.TT_RBRACKET:
+            return entries
 
+        key, value = parse_field(it)
         entries[key] = value
 
-        match c.ty:
+        it.advance_not_eoi(["'}'", "','"])
+
+        match it.token.ty:
             case JsonToken.TT_RBRACKET:
-                return entries, c.location
+                return entries
+
             case JsonToken.TT_COMMA:
                 continue
 
-        raise Error("Syntax error", c.location, ErrorContext(["'}'", "','"], c.ty))
+            case _:
+                break
 
-    raise Error(BuiltinErrors.UNEXPECTED_EOI, last_span, ErrorContext(["field"], "EOI"))
+    raise Error("Syntax error", it.token.location, ErrorContext(["field", "'}'"], it.token.ty))
 
 
-def parse_value(previous_span: Span, it: TokenIterator) -> (any, Span):
-    if not (token := it.next()):
-        raise Error(BuiltinErrors.UNEXPECTED_EOI, previous_span,
-                    ErrorContext(["int", "float", "string", "section"], "EOI"))
+def parse_value(it: TokenIterator) -> any:
+    it.advance_not_eoi(["int", "float", "string", "section"])
 
-    match token.ty:
+    match it.token.ty:
         case TokenType.TT_STR | TokenType.TT_INT | TokenType.TT_FLOAT:
-            return token.value, token.location
+            return it.token.value
 
         case JsonToken.TT_LBRACKET:
-            return parse_section(token.location, it)
+            return parse_section(it)
 
-    raise Error("Syntax error", previous_span, ErrorContext(["int, float", "string", "section"], token.ty))
+    raise Error("Syntax error", it.token.location, ErrorContext(["int, float", "string", "section"], it.token.ty))
 
 
-def parse_field(previous_span: Span, it: TokenIterator) -> (str, any, Span):
-    if not (key := it.next()):
-        raise Error(BuiltinErrors.UNEXPECTED_EOI, previous_span, ErrorContext(["key"], "EOI"))
+def parse_field(it: TokenIterator) -> (str, any, Span):
+    if it.token.ty != TokenType.TT_STR:
+        raise Error("Syntax error", it.token.location, ErrorContext(["string"], it.token.ty))
 
-    if not (colon := it.next()):
-        raise Error(BuiltinErrors.UNEXPECTED_EOI, key.location, ErrorContext(["colon"], "EOI"))
+    key = it.token.value
+    it.advance_not_eoi(["colon"])
 
-    value, span = parse_value(colon.location, it)
-    return key.value, value, span
+    if it.token.ty != JsonToken.TT_COLON:
+        raise Error("Syntax error", it.token.location, ErrorContext(["':'"], it.token.ty))
+
+    value = parse_value(it)
+    return key, value
 
 
 def main() -> None:
@@ -104,7 +117,7 @@ def main() -> None:
         print(tokens)
 
         if tokens:
-            entries = parse_section(tokens[0].location, TokenIterator(tokens))
+            entries = parse_section(TokenIterator(tokens))
             print(f"Parsed entries: {entries}")
 
     except Error as err:

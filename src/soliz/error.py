@@ -2,7 +2,7 @@ from src.soliz.tokens import Span
 
 
 class ErrorContext:
-    def __init__(self, expected: list[str], found: str | None) -> None:
+    def __init__(self, expected: list[str], found: str) -> None:
         """
         Instantiates an ErrorContext.
 

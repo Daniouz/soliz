@@ -1,3 +1,8 @@
 .idea/
 *.iml
+
 __pycache__
+pyproject.toml
+src/soliz.egg-info/
+
+dist/

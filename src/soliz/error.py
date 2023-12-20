@@ -1,4 +1,4 @@
-from soliz.tokens import Span
+from src.soliz.tokens import Span
 
 
 class ErrorContext:

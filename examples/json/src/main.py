@@ -1,9 +1,9 @@
 from typing import Tuple
 
-from soliz.error import Error
-from soliz.impls import StringRule, NumberRule
-from soliz.lex import Lexer, Rule, Context
-from soliz.tokens import Token
+from src.soliz.error import Error
+from src.soliz.impls import StringRule, NumberRule
+from src.soliz.lex import Lexer, Rule, Context
+from src.soliz.tokens import Token
 
 
 class TokenType:

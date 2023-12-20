@@ -1,6 +1,6 @@
-from soliz.error import Error
-from soliz.lex import Lexer
-from soliz.impls import StringRule, NumberRule, TokenType
+from src.soliz.error import Error
+from src.soliz.lex import Lexer
+from src.soliz.impls import StringRule, NumberRule, TokenType
 
 import unittest
 

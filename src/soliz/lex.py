@@ -120,6 +120,8 @@ class Lexer:
 
         :param rules: the lexer rules
         """
+        if rules is None:
+            raise ValueError("`rules` cannot be None")
         self._rules = rules
 
     def lex(self, text: str) -> list[Token]:
@@ -130,6 +132,9 @@ class Lexer:
         :raises: Error: if an error occurs while analyzing the text
         :return: the tokens
         """
+        if text is None:
+            raise ValueError("`text` cannot be None")
+
         ctx = Context(text)
         token_list = []
 

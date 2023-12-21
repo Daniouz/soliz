@@ -10,9 +10,10 @@
 
 ```
 Error: Unexpected character
-{"key": qas}
-        ^
-Occurs at: 1:9-9
+{"key": 4.4.}
+           ^
+Expected: 'digit', found '.'
+Occurs at: 1:12-12
 ```
 
 <sub>WARNING: Order of the rules may matter depending on the implementation.</sub>

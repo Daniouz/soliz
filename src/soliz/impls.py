@@ -1,3 +1,7 @@
+"""
+Builtin Rule implementations.
+"""
+
 from typing import Tuple
 
 from .lex import Context, Rule

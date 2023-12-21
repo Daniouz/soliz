@@ -31,6 +31,8 @@ class Token:
         :param value: the token's value
         :param span: the span in which the token was defined
         """
+        if ty is None or span is None:
+            raise ValueError("Arguments cannot be None")
         self.ty = ty
         self.value = value
         self.location = span

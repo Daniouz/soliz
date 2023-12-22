@@ -88,7 +88,7 @@ class StringRule(Rule):
             else:
                 chars.append(char)
 
-        return Token(TokenType.TT_STR, ctx.span(col_start, -1), ''.join(chars)), True
+        return Token(TokenType.TT_STR, ctx.span(col_start), ''.join(chars)), True
 
 
 class NumberRule(Rule):
@@ -152,7 +152,7 @@ class OperatorRule(Rule):
             case '*':
                 if ctx.peek() == '*':
                     ctx.advance()
-                    return Token(TokenType.TT_OP, ctx.span(ctx.col - 1), "**"), True
+                    return Token(TokenType.TT_OP, ctx.span(ctx.col), "**"), True
 
                 return Token(TokenType.TT_OP, ctx.span(), '*'), True
             case '/':
@@ -164,7 +164,7 @@ class OperatorRule(Rule):
             case '=':
                 if ctx.peek() == '=':
                     ctx.advance()
-                    return Token(TokenType.TT_OP, ctx.span(ctx.col - 1), "=="), True
+                    return Token(TokenType.TT_OP, ctx.span(ctx.col), "=="), True
 
 
 class SymbolRule(Rule):
@@ -192,7 +192,7 @@ class IdentifierRule(Rule):
             chars.append(ctx.char)
             ctx.advance()
 
-        return Token(TokenType.TT_ID, ctx.span(start, -1), ''.join(chars)), False
+        return Token(TokenType.TT_ID, ctx.span(start, 0 if ctx.is_eoi() else -1), ''.join(chars)), False
 
 
 class EolRule(Rule):
@@ -247,4 +247,4 @@ class SpaceRule(Rule):
             ctx.advance()
 
         if i:
-            return Token(TokenType.TT_SPACE, ctx.span(cs, -1), i), False
+            return Token(TokenType.TT_SPACE, ctx.span(cs), i), False

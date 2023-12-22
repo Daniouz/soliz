@@ -59,5 +59,6 @@ class BuiltinErrors:
     Builtin error messages.
     """
     UNEXPECTED_CHARACTER = "Unexpected character"
+    UNTERMINATED_STRING = "Basic strings cannot contain newline characters"
     UNEXPECTED_EOI = "Unexpected end of input"
     UNSUPPORTED_ESCAPE = "Unsupported escape sequence"

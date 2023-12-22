@@ -30,7 +30,7 @@ class TokenType:
     TT_EQUALS = "equals"
     TT_PERIOD = "period"
     TT_EOL = "eol"
-    TT_EOF = "eof"
+    TT_EOI = "eoi"
 
 
 class StringRule(Rule):
@@ -60,7 +60,7 @@ class StringRule(Rule):
             if char == '"':
                 found_end_quote = True
             elif char == '\n':
-                raise Error(BuiltinErrors.UNEXPECTED_CHARACTER, ctx.span(),
+                raise Error(BuiltinErrors.UNTERMINATED_STRING, ctx.span(),
                             ErrorContext(["any", '"', r'\\', r'\n', r'\r', r'\t', r'\b', r'\f'], "EOL"))
             elif char == '\\':
                 if (esc := ctx.next_char()) is None:

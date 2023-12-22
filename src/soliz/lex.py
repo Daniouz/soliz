@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Tuple
 
 from .error import BuiltinErrors, Error, ErrorContext
 from .tokens import Span, Token
-
-from typing import Tuple
 
 
 class Context:

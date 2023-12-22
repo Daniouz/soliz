@@ -5,6 +5,8 @@ Get started by implementing the Rule type, and instantiating a lexer with the ru
 Or, utilize Soliz's builtin rules in the `impls` module:
 
 - SymbolRule
+- EolRule
+- SpaceRule
 - StringRule
 - NumberRule
 - OperatorRule

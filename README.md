@@ -27,8 +27,6 @@ Builtin rules can be located in `soliz/impls.py`
 This rule allows escape sequences and parses quoted strings.<br>
 Errors on invalid escape sequences.
 
-<sub>NOTE: This rule allows newlines inside the string.</sub>
-
 ### NumberRule
 
 This rule parses integers and floats, positive or negative.

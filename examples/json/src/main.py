@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from src.soliz.error import Error, ErrorContext, BuiltinErrors
-from src.soliz.impls import StringRule, NumberRule, TokenType
+from src.soliz.impls import StringRule, NumberRule, TokenType, EolRule, SpaceRule
 from src.soliz.lex import Lexer, Rule, Context
 from src.soliz.tokens import Token, Span
 
@@ -109,15 +109,17 @@ def parse_field(it: TokenIterator) -> (str, any, Span):
 
 
 def main() -> None:
-    lexer = Lexer([JSONSymbolRule(), StringRule(), NumberRule()])
+    lexer = Lexer([SpaceRule(True), EolRule(), JSONSymbolRule(), StringRule(), NumberRule()])
     text = input("Enter JSON: ")
 
     try:
-        tokens = lexer.lex(text)
-        print(tokens)
+        res = lexer.lex(text)
+        res.discard_types(TokenType.TT_SPACE, TokenType.TT_EOL)
 
-        if tokens:
-            entries = parse_section(TokenIterator(tokens))
+        print(res.tokens)
+
+        if res.tokens:
+            entries = parse_section(TokenIterator(res.tokens))
             print(f"Parsed entries: {entries}")
 
     except Error as err:

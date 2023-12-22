@@ -111,6 +111,17 @@ class Rule(ABC):
         pass
 
 
+class LexResult:
+    def __init__(self, tokens: list[Token]) -> None:
+        self.tokens = tokens
+
+    def discard_type(self, ty: str) -> None:
+        self.tokens = [token for token in self.tokens if token.ty != ty]
+
+    def discard_types(self, *tys: str) -> None:
+        self.tokens = [token for token in self.tokens if token.ty not in tys]
+
+
 class Lexer:
     """Analyzes text and converts pieces of syntax into tokens for later parsing."""
 
@@ -124,13 +135,13 @@ class Lexer:
             raise ValueError("`rules` cannot be None")
         self._rules = rules
 
-    def lex(self, text: str) -> list[Token]:
+    def lex(self, text: str) -> LexResult:
         """
-        Analyzes the text for tokens and returns them.
+        Analyzes the text for tokens and returns them in a LexResult.
 
         :param text: the text to lex
         :raises: Error: if an error occurs while analyzing the text
-        :return: the tokens
+        :return: the result
         """
         if text is None:
             raise ValueError("`text` cannot be None")
@@ -139,10 +150,6 @@ class Lexer:
         token_list = []
 
         while not ctx.is_eoi():
-            if ctx.char.isspace():
-                ctx.advance()
-                continue
-
             applied = False
 
             for rule in self._rules:
@@ -159,4 +166,4 @@ class Lexer:
             if not applied:
                 raise Error(BuiltinErrors.UNEXPECTED_CHARACTER, ctx.span())
 
-        return token_list
+        return LexResult(token_list)

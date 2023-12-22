@@ -44,3 +44,11 @@ Parses the following symbols: `(`, `)`, `=`, `.` as individual token types witho
 ### IdentifierRule
 
 Parses identifiers that start with `_` or alphabetic characters, and continue with alphanumeric or `_` characters.
+
+### EolRule
+
+Parses newline characters and updates the lexer context.
+
+### SpaceRule
+
+Parses sequences of space and optionally tab characters.

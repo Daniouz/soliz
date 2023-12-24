@@ -20,6 +20,22 @@ class Span:
         return f"{self.ln}:{self.cs}-{self.ce}"
 
 
+class TokenType:
+    """Builtin token type constants."""
+    TT_SPACE = "space"
+    TT_STR = "string"
+    TT_INT = "int"
+    TT_FLOAT = "float"
+    TT_OP = "operator"
+    TT_ID = "identifier"
+    TT_LPAREN = "lparen"
+    TT_RPAREN = "rparen"
+    TT_EQUALS = "equals"
+    TT_PERIOD = "period"
+    TT_EOL = "eol"
+    TT_EOI = "eoi"
+
+
 class Token:
     """A piece of data parsed from the source."""
 
@@ -33,6 +49,7 @@ class Token:
         """
         if ty is None or span is None:
             raise ValueError("Arguments cannot be None")
+
         self.ty = ty
         self.value = value
         self.location = span

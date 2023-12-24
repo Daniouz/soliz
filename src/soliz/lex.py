@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Tuple
 
 from .error import BuiltinErrors, Error, ErrorContext
-from .tokens import Span, Token
+from .tokens import Span, Token, TokenType
 
 
 class Context:
@@ -124,15 +124,18 @@ class LexResult:
 class Lexer:
     """Analyzes text and converts pieces of syntax into tokens for later parsing."""
 
-    def __init__(self, rules: list[Rule]) -> None:
+    def __init__(self, rules: list[Rule], append_eoi_token: bool = True) -> None:
         """
         Instantiates a Lexer.
 
         :param rules: the lexer rules
+        :param append_eoi_token: if an EOI token should be appended to this lexer's parse results
         """
         if rules is None:
             raise ValueError("`rules` cannot be None")
+
         self._rules = rules
+        self.append_eoi_token = append_eoi_token
 
     def lex(self, text: str) -> LexResult:
         """
@@ -164,5 +167,8 @@ class Lexer:
 
             if not applied:
                 raise Error(BuiltinErrors.UNEXPECTED_CHARACTER, ctx.span())
+
+        if self.append_eoi_token:
+            token_list.append(Token(TokenType.TT_EOI, ctx.span()))
 
         return LexResult(token_list)

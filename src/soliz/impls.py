@@ -14,23 +14,7 @@ from typing import Tuple
 
 from .lex import Context, Rule
 from .error import Error, BuiltinErrors, ErrorContext
-from .tokens import Token
-
-
-class TokenType:
-    """Token type constants."""
-    TT_SPACE = "space"
-    TT_STR = "string"
-    TT_INT = "int"
-    TT_FLOAT = "float"
-    TT_OP = "operator"
-    TT_ID = "identifier"
-    TT_LPAREN = "lparen"
-    TT_RPAREN = "rparen"
-    TT_EQUALS = "equals"
-    TT_PERIOD = "period"
-    TT_EOL = "eol"
-    TT_EOI = "eoi"
+from .tokens import Token, TokenType
 
 
 class StringRule(Rule):

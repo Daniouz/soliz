@@ -1,9 +1,9 @@
 from typing import Tuple
 
 from src.soliz.error import Error, ErrorContext, BuiltinErrors
-from src.soliz.impls import StringRule, NumberRule, TokenType, EolRule, SpaceRule
+from src.soliz.impls import StringRule, NumberRule, EolRule, SpaceRule
 from src.soliz.lex import Lexer, Rule, Context
-from src.soliz.tokens import Token, Span
+from src.soliz.tokens import Token, TokenType, Span
 
 
 class JsonToken:

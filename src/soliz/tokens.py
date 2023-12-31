@@ -23,17 +23,17 @@ class Span:
 class TokenType:
     """Builtin token type constants."""
     TT_SPACE = "space"
-    TT_STR = "string"
+    TT_STRING = "string"
     TT_INT = "int"
     TT_FLOAT = "float"
     TT_OP = "operator"
     TT_ID = "identifier"
-    TT_LPAREN = "lparen"
-    TT_RPAREN = "rparen"
-    TT_EQUALS = "equals"
-    TT_PERIOD = "period"
-    TT_EOL = "eol"
-    TT_EOI = "eoi"
+    TT_LPAREN = "("
+    TT_RPAREN = ")"
+    TT_EQUALS = "="
+    TT_PERIOD = "."
+    TT_EOL = "<eol>"
+    TT_EOI = "<eoi>"
 
 
 class Token:

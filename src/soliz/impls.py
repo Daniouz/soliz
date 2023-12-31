@@ -72,7 +72,7 @@ class StringRule(Rule):
             else:
                 chars.append(char)
 
-        return Token(TokenType.TT_STR, ctx.span(col_start), ''.join(chars)), True
+        return Token(TokenType.TT_STRING, ctx.span(col_start), ''.join(chars)), True
 
 
 class NumberRule(Rule):
@@ -203,7 +203,7 @@ class SpaceRule(Rule):
     Generated tokens contain the number of characters consumed as their value.
     """
 
-    def __init__(self, allow_tab: bool) -> None:
+    def __init__(self, allow_tab: bool = True) -> None:
         """
         Instantiates a new SpaceRule.
 

@@ -85,7 +85,7 @@ def parse_value(it: TokenIterator) -> any:
     it.advance_not_eoi(["int", "float", "string", "section"])
 
     match it.token.ty:
-        case TokenType.TT_STR | TokenType.TT_INT | TokenType.TT_FLOAT:
+        case TokenType.TT_STRING | TokenType.TT_INT | TokenType.TT_FLOAT:
             return it.token.value
 
         case JsonToken.TT_LBRACKET:
@@ -95,7 +95,7 @@ def parse_value(it: TokenIterator) -> any:
 
 
 def parse_field(it: TokenIterator) -> (str, any, Span):
-    if it.token.ty != TokenType.TT_STR:
+    if it.token.ty != TokenType.TT_STRING:
         raise Error("Syntax error", it.token.location, ErrorContext(["string"], it.token.ty))
 
     key = it.token.value

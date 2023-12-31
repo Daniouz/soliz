@@ -29,13 +29,8 @@ class Context:
             return
 
         self.index += 1
+        self.col += 1
         self.char = self.text[self.index]
-
-        if self.char == '\n':
-            self.ln += 1
-            self.col = 1
-        else:
-            self.col += 1
 
     def has_next(self) -> bool:
         """

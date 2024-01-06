@@ -28,10 +28,24 @@ class TokenType:
     TT_FLOAT = "float"
     TT_OP = "operator"
     TT_ID = "identifier"
-    TT_LPAREN = "("
-    TT_RPAREN = ")"
-    TT_EQUALS = "="
-    TT_PERIOD = "."
+    TT_LPAREN = '('
+    TT_RPAREN = ')'
+    TT_EQUALS = '='
+    TT_PERIOD = '.'
+    TT_COMMA = ','
+    TT_COLON = ':'
+    TT_SEMICOLON = ';'
+    TT_AND = '&'
+    TT_AT = '@'
+    TT_TILDA = '~'
+    TT_QUESTION = '?'
+    TT_EXCLAMATION = '!'
+    TT_HASHTAG = '#'
+    TT_CARET = '^'
+    TT_LBRACE = '{'
+    TT_RBRACE = '}'
+    TT_LBRACKET = '['
+    TT_RBRACKET = ']'
     TT_EOL = "<eol>"
     TT_EOI = "<eoi>"
 

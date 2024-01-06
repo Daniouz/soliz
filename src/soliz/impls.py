@@ -176,7 +176,7 @@ class IdentifierRule(Rule):
             chars.append(ctx.char)
             ctx.advance()
 
-        return Token(TokenType.TT_ID, ctx.span(start, 0 if ctx.is_eoi() else -1), ''.join(chars)), False
+        return Token(TokenType.TT_ID, ctx.span(start), ''.join(chars)), False
 
 
 class EolRule(Rule):
